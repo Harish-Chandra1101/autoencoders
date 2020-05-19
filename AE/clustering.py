@@ -13,10 +13,12 @@ class Cluster:
         return self.__cluster_config
 
     def kmeans(self):
-        cluster_labels = KMeans(n_clusters=self.__cluster_config['num_clusters'], random_state=0).fit_predict(self.__data)
+        config = self.__cluster_config['kmeans']
+        cluster_labels = KMeans(n_clusters=config['num_clusters'], random_state=0).fit_predict(self.__data)
         return cluster_labels
 
     def em(self):
-        cluster_labels = GaussianMixture(n_components=self.__cluster_config['num_clusters'], covariance_type=self.__cluster_config['cov_type'], max_iter=self.__cluster_config['num_epochs'], init_params=self.__cluster_config['init_params']).fit_predict(self.__data)
+        config = self.__cluster_config['em']
+        cluster_labels = GaussianMixture(n_components=config['num_clusters'], covariance_type=config['cov_type'], max_iter=self.config['num_epochs'], init_params=config['init_params']).fit_predict(self.__data)
         return cluster_labels
 
