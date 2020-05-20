@@ -12,4 +12,3 @@ class Cluster:
         cluster_labels = KMeans(n_clusters=config['num_clusters']).fit_predict(self.__data)
         return  cluster_labels
 
-    
