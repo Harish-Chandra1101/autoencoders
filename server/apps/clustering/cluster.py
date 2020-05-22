@@ -1,5 +1,4 @@
 from sklearn.cluster import KMeans
-from sklearn.mixture import GaussianMixture
 
 
 class Cluster:
@@ -10,5 +9,4 @@ class Cluster:
     def kmeans(self):
         config = self.__cluster_config['kmeans']
         cluster_labels = KMeans(n_clusters=config['num_clusters']).fit_predict(self.__data)
-        return  cluster_labels
-
+        return cluster_labels
