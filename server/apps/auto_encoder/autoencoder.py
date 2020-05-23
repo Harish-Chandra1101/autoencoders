@@ -1,6 +1,5 @@
 import numpy as np
 from server.apps.activations.activations import Activation
-from server.apps.logging.logger import FeatureExtractionLogger
 
 
 class Autoencoder(object):
@@ -31,9 +30,6 @@ class Autoencoder(object):
 
         self.__config = config
         self.__data = data
-
-        self.feature_logger = FeatureExtractionLogger("autoencoder")
-        self.feature_logger.logger.info("Config received is {}".format(self.__config))
 
         self.__data = np.array(self.__data)
         if self.__config["numpy_rng"] is "":
@@ -107,8 +103,7 @@ class Autoencoder(object):
         reconstructed_input = self.get_reconstructed_input()
 
         error = np.sum((self.__data - reconstructed_input) ** 2)
-
-        self.feature_logger.logger.info("Error {}".format(error))
+        print("Error " + str(error))
         self.error_list.append(error)
 
         L_h2 = self.__data - reconstructed_input
@@ -128,37 +123,31 @@ class Autoencoder(object):
         Train the autoencoder network for specific number of epochs
         """
         for epoch in range(self.epochs):
-            self.feature_logger.logger.info("Epoch {}".format(epoch))
             self.train()
-        self.training_complete = 1
-        self.feature_logger.logger.info("Training completed")
+            self.training_complete = 1
 
     def get_features(self):
         if self.training_complete:
             return self.__hidden
         else:
-            self.feature_logger.logger.error("Training still not completed")
             return "Please train the network to get the features"
 
     def get_final_weights(self):
         if self.training_complete:
             return self.weights
         else:
-            self.feature_logger.logger.error("Training still not completed")
             return "Please train the network to get the final weights"
 
     def get_final_visible_bias(self):
         if self.training_complete:
             return self.v_bias
         else:
-            self.feature_logger.logger.error("Training still not completed")
             return "Please train the network to get the final hidden bias"
 
     def get_final_hidden_bias(self):
         if self.training_complete:
             return self.h_bias
         else:
-            self.feature_logger.logger.error("Training still not completed")
             return "Please train the network to get the final visible"
 
 
