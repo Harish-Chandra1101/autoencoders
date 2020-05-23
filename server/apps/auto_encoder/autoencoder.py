@@ -66,6 +66,7 @@ class Autoencoder(object):
         self.activation = Activation()
         self.error_list = []
         self.epoch_list = [i for i in range(0, self.epochs)]
+        self.training_complete = 0
 
     @property
     def config(self):
@@ -123,6 +124,32 @@ class Autoencoder(object):
         """
         for epoch in range(self.epochs):
             self.train()
+            self.training_complete = 1
+
+    def get_features(self):
+        if self.training_complete:
+            return self.__hidden
+        else:
+            return "Please train the network to get the features"
+
+    def get_final_weights(self):
+        if self.training_complete:
+            return self.weights
+        else:
+            return "Please train the network to get the final weights"
+
+    def get_final_visible_bias(self):
+        if self.training_complete:
+            return self.v_bias
+        else:
+            return "Please train the network to get the final hidden bias"
+
+    def get_final_hidden_bias(self):
+        if self.training_complete:
+            return self.h_bias
+        else:
+            return "Please train the network to get the final visible"
+
 
 
 
