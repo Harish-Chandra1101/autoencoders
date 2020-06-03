@@ -29,3 +29,4 @@ class Cluster:
     def truncate_nan_values(data):
         data = data[:, ~np.isnan(data).any(axis=0)]
         return data
+ 
