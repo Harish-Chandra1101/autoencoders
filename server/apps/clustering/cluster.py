@@ -1,6 +1,6 @@
+import numpy as np
 from sklearn.cluster import KMeans
-from sklearn.mixture import GaussianMixture
-from server.apps.logging.logger import ClusteringLogger
+from apps.clustering.utils import remove_nan
 
 
 class Cluster:
@@ -19,15 +19,14 @@ class Cluster:
         """
         self.__data = data
         self.__cluster_config = cluster_config
-        self.cluster_logger = None
 
     def kmeans(self):
-        self.cluster_logger = ClusteringLogger("kmeans")
-        self.cluster_logger.logger.info("Cluster Config Received is {}".format(self.__cluster_config))
-
-        cluster_labels = KMeans(n_clusters=self.__cluster_config['num_clusters']).fit_predict(self.__data)
-
-        self.cluster_logger.logger.info("Clustering completed")
-        self.cluster_logger.logger.info("Returning clustering labels")
-
+        data = Cluster.truncate_nan_values(self.__data)
+        cluster_labels = KMeans(n_clusters=self.__cluster_config['num_clusters']).fit_predict(data)
         return cluster_labels
+
+    @staticmethod
+    def truncate_nan_values(data):
+        data = data[:, ~np.isnan(data).any(axis=0)]
+        return data
+ 

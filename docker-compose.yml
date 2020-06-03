@@ -10,7 +10,7 @@ services:
      - "9432:5432"
   web:
     build: .
-    working_dir: /application
+    working_dir: /application/server
     env_file:
       - server/config/.env
     command: "tail -f /dev/null"
